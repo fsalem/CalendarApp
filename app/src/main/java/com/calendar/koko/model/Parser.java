@@ -2,6 +2,8 @@ package com.calendar.koko.model;
 
 import com.calendar.koko.model.objects.ConfirmObject;
 import com.calendar.koko.model.objects.CreateEventObject;
+import com.calendar.koko.model.objects.EventSearchObject;
+import com.calendar.koko.model.objects.NameValuePair;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -12,7 +14,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
@@ -32,7 +33,6 @@ public class Parser {
     static {
         URI_MAP.put("login", "/api/users/login/");
         URI_MAP.put("CRUDEvent", "/api/events/");
-        URI_MAP.put("retrieveAllEvents", "/api/events/");
         URI_MAP.put("getPeriodEvents", "/api/events/search/period/");
     }
 
@@ -75,13 +75,15 @@ public class Parser {
             connection.setRequestMethod(method);
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            OutputStream os = connection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getQuery(params));
-            writer.flush();
-            writer.close();
-            os.close();
+            if (params != null) {
+                OutputStream os = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getQuery(params));
+                writer.flush();
+                writer.close();
+                os.close();
+            }
             connection.connect();
             int statusCode = connection.getResponseCode();
             if (statusCode == 200) {
@@ -116,6 +118,39 @@ public class Parser {
         String content = getURLContent(URI_MAP.get("CRUDEvent"), "POST", params);
         ConfirmObject confirmObject = new Gson().fromJson(content, ConfirmObject.class);
         return confirmObject;
+    }
 
+    public static ConfirmObject updateEvent(CreateEventObject eventObject,String _id) throws IllegalAccessException, InvocationTargetException {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        Method[] methods = eventObject.getClass().getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.getName().startsWith("get")) {
+                params.add(new NameValuePair(method.getName().toLowerCase().substring(3), method.invoke(eventObject).toString()));
+            }
+        }
+        String content = getURLContent(URI_MAP.get("CRUDEvent")+_id+"/", "PUT", params);
+        ConfirmObject confirmObject = new Gson().fromJson(content, ConfirmObject.class);
+        return confirmObject;
+    }
+
+    public static ConfirmObject deleteEvent(String email, String password,String _id) throws IllegalAccessException, InvocationTargetException {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new NameValuePair("email",email));
+        params.add(new NameValuePair("password",password));
+        String content = getURLContent(URI_MAP.get("CRUDEvent")+_id+"/", "DEL", params);
+        ConfirmObject confirmObject = new Gson().fromJson(content, ConfirmObject.class);
+        return confirmObject;
+    }
+
+    public static EventSearchObject retreiveAllEvents(String email, String password) throws IllegalAccessException, InvocationTargetException {
+        String content = getURLContent(URI_MAP.get("CRUDEvent")+email+"/"+password, "GET", null);
+        EventSearchObject eventsObject = new Gson().fromJson(content, EventSearchObject.class);
+        return eventsObject;
+    }
+
+    public static EventSearchObject retreiveEventsWithinPeriod(Long startDate, Long endDate, String email, String password) throws IllegalAccessException, InvocationTargetException {
+        String content = getURLContent(URI_MAP.get("getPeriodEvents")+startDate+"/"+endDate+"/"+email+"/"+password, "GET", null);
+        EventSearchObject eventsObject = new Gson().fromJson(content, EventSearchObject.class);
+        return eventsObject;
     }
 }

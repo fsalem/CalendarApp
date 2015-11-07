@@ -1,4 +1,4 @@
-package com.calendar.koko.model;
+package com.calendar.koko.model.objects;
 
 /**
  * Created by farouk on 11/5/15.

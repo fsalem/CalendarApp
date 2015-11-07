@@ -270,7 +270,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                //finish();
+                LoginCredentialsApplication credentialsApplication = (LoginCredentialsApplication)getApplicationContext();
+                credentialsApplication.setEmail(mEmail);
+                credentialsApplication.setPassword(mPassword);
                 // TODO go to next activity
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
