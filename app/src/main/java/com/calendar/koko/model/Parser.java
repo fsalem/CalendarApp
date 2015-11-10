@@ -28,7 +28,8 @@ import java.util.List;
  */
 public class Parser {
     private final static HashMap<String, String> URI_MAP = new HashMap<String, String>();
-    private final static String SERVER_URL = "http://130.233.42.98:8080";
+    //private final static String SERVER_URL = "http://130.233.42.98:8080";
+    private final static String SERVER_URL = "http://192.168.0.101:8080";
 
     static {
         URI_MAP.put("login", "/api/users/login/");
@@ -76,6 +77,7 @@ public class Parser {
             connection.setDoInput(true);
             connection.setDoOutput(true);
             if (params != null) {
+                System.out.println(params.toString());
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
@@ -112,7 +114,10 @@ public class Parser {
         Method[] methods = eventObject.getClass().getDeclaredMethods();
         for (Method method : methods) {
             if (method.getName().startsWith("get")) {
-                params.add(new NameValuePair(method.getName().toLowerCase().substring(3), method.invoke(eventObject).toString()));
+                Object object = method.invoke(eventObject);
+                if (object != null) {
+                    params.add(new NameValuePair(Character.toLowerCase(method.getName().charAt(3))+method.getName().substring(4), object.toString()));
+                }
             }
         }
         String content = getURLContent(URI_MAP.get("CRUDEvent"), "POST", params);
@@ -125,7 +130,10 @@ public class Parser {
         Method[] methods = eventObject.getClass().getDeclaredMethods();
         for (Method method : methods) {
             if (method.getName().startsWith("get")) {
-                params.add(new NameValuePair(method.getName().toLowerCase().substring(3), method.invoke(eventObject).toString()));
+                Object object = method.invoke(eventObject);
+                if (object != null) {
+                    params.add(new NameValuePair(Character.toLowerCase(method.getName().charAt(3))+method.getName().substring(4), object.toString()));
+                }
             }
         }
         String content = getURLContent(URI_MAP.get("CRUDEvent")+_id+"/", "PUT", params);

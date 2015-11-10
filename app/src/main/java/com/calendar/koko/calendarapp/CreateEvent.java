@@ -1,31 +1,61 @@
 package com.calendar.koko.calendarapp;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.calendar.koko.model.Parser;
+import com.calendar.koko.model.objects.ConfirmObject;
+import com.calendar.koko.model.objects.CreateEventObject;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class CreateEvent extends AppCompatActivity {
+
+    private CreateEventTask createEventTask = null;
+    private EditText eventName;
+    private EditText eventDesc;
+    private EditText location;
+    private EditText notify;
+    private DatePickerFragment startDatePickerFragment;
+    private TimePickerFragment startTimePickerFragment;
+    private DatePickerFragment endDatePickerFragment;
+    private TimePickerFragment endTimePickerFragment;
+    private DatePickerFragment notifyDatePickerFragment;
+    private TimePickerFragment notifyTimePickerFragment;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+        eventName = (EditText) findViewById(R.id.c_eventname_text);
+        eventDesc = (EditText) findViewById(R.id.c_event_desc_text);
+        location = (EditText) findViewById(R.id.c_event_location_text);
+        notify = (EditText) findViewById(R.id.c_notify_text);
 
     }
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
-
+        int hourOfDay, minute;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
@@ -39,38 +69,33 @@ public class CreateEvent extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
+            this.hourOfDay = hourOfDay;
+            this.minute = minute;
         }
     }
 
     //Show time Picker
     public void showStartTimePickerDialog(View v) {
-        //Maybe you need to pass paramter to the constructor to handle logic in onTimeSet
-        // TODO get start time
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
+        startTimePickerFragment = new TimePickerFragment();
+        startTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     //Show time Picker
     public void showEndTimePickerDialog(View v) {
-        //Maybe you need to pass paramter to the constructor to handle logic in onTimeSet
-        // TODO get end time
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
+        endTimePickerFragment = new TimePickerFragment();
+        endTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     //Show time Picker
     public void showNotifyTimePickerDialog(View v) {
-        //Maybe you need to pass paramter to the constructor to handle logic in onTimeSet
-        // TODO get notify time
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
+        notifyTimePickerFragment = new TimePickerFragment();
+        notifyTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
-
+        int year,month,day;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -84,38 +109,119 @@ public class CreateEvent extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            // TODO something with the date chosen by the user
+            this.year = year;
+            this.month = month;
+            this.day = day;
         }
     }
 
     //show date picker
     public void showStartDatePickerDialog(View v) {
-        //Maybe you need to pass paramter to the constructor to handle logic in onDateSet
-        // TODO get start date
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        startDatePickerFragment= new DatePickerFragment();
+        startDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     //show date picker
     public void showEndDatePickerDialog(View v) {
-        //Maybe you need to pass paramter to the constructor to handle logic in onDateSet
-        // TODO get end date
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        endDatePickerFragment = new DatePickerFragment();
+        endDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     //show date picker
     public void showNotifyDatePickerDialog(View v) {
-        //Maybe you need to pass paramter to the constructor to handle logic in onDateSet
-        // TODO get notify date
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        notifyDatePickerFragment = new DatePickerFragment();
+        notifyDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
 
     //Create an event
     public void createEvent(View v){
-        // TODO create event logic
+        if (createEventTask != null) {
+            return;
+        }
+        Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT+2"));
+
+        LoginCredentialsApplication credentialsApplication = (LoginCredentialsApplication) getApplicationContext();
+
+        CreateEventObject eventObject = new CreateEventObject();
+        eventObject.setEmail(credentialsApplication.getEmail());
+        eventObject.setPassword(credentialsApplication.getPassword());
+        eventObject.setName(eventName.getText().toString());
+        eventObject.setDesc(eventDesc.getText().toString());
+        eventObject.setLocation(location.getText().toString());
+        eventObject.setNotify(notify.getText().toString().equals("1") ? true : false);
+        if (startDatePickerFragment != null && startDatePickerFragment.year != 0) {
+            cal.set(startDatePickerFragment.year + 1900, startDatePickerFragment.month, startDatePickerFragment.day, startTimePickerFragment.hourOfDay, startTimePickerFragment.minute, 0);
+            eventObject.setsDate(cal.getTime().getTime());
+        }
+        if (endDatePickerFragment != null && endDatePickerFragment.year != 0) {
+            cal.set(endDatePickerFragment.year + 1900, endDatePickerFragment.month, endDatePickerFragment.day, endTimePickerFragment.hourOfDay, endTimePickerFragment.minute, 0);
+            eventObject.seteDate(cal.getTime().getTime());
+        }
+        if (notifyDatePickerFragment != null && notifyDatePickerFragment.year != 0) {
+            cal.set(notifyDatePickerFragment.year + 1900, notifyDatePickerFragment.month, notifyDatePickerFragment.day, notifyTimePickerFragment.hourOfDay, notifyTimePickerFragment.minute, 0);
+            eventObject.setnDate(cal.getTime().getTime());
+        }
+        System.out.println("Dates=> "+eventObject.getsDate()+", "+eventObject.getsDate()+", "+eventObject.geteDate());
+        createEventTask = new CreateEventTask(eventObject,this);
+        createEventTask.execute((Void) null);
+    }
+
+    public class CreateEventTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final CreateEventObject createEventObject;
+        private final AppCompatActivity mActivity;
+
+        CreateEventTask(CreateEventObject createEventObject,AppCompatActivity activity) {
+            this.createEventObject = createEventObject;
+            mActivity = activity;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                ConfirmObject confirmObject = Parser.createEvent(createEventObject);
+                System.out.print("Result in createEvent from Parser = "+confirmObject);
+                return true?confirmObject.getSuccess() == 1:false;
+            }catch (IllegalAccessException illegalException){
+                illegalException.printStackTrace();
+            }catch (InvocationTargetException exception){
+                exception.printStackTrace();
+            }
+            return Boolean.FALSE;
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create();
+            alertDialog.setTitle("Status");
+            if (success) {
+                alertDialog.setMessage(getResources().getString(R.string.event_creation_success));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(CreateEvent.this, Home.class);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+            } else {
+                alertDialog.setMessage(getResources().getString(R.string.event_creation_failed));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+            }
+            alertDialog.show();
+        }
+
+        @Override
+        protected void onCancelled() {
+            createEventTask = null;
+        }
     }
 
 }
