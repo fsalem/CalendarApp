@@ -86,9 +86,11 @@ public class Home extends AppCompatActivity
             intent = new Intent(this, CreateEvent.class);
             this.startActivity(intent);
         } else if (id == R.id.get_event) {
-
+            intent = new Intent(this, EventsActivity.class);
+            this.startActivity(intent);
         } else if (id == R.id.synch_events) {
-
+            intent = new Intent(this, SynchEevnts.class);
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

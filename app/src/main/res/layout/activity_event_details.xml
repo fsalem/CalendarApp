@@ -5,7 +5,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.calendar.koko.calendarapp.CreateEvent">
+    tools:context="com.calendar.koko.calendarapp.EventDetails">
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Start Date"
+        android:text="Update Date"
         android:id="@+id/u_set_start_dbutton"
         android:onClick="showStartDatePickerDialog"
         android:layout_alignBottom="@+id/u_startdate"
@@ -84,7 +84,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set End Date"
+        android:text="Update Date"
         android:id="@+id/u_set_end_date_button"
         android:layout_alignBottom="@+id/c_enddate"
         android:onClick="showEndDatePickerDialog"
@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Notify Date"
-        android:id="@+id/c_notify_date"
+        android:id="@+id/u_notify_date"
         android:layout_below="@+id/u_notify"
         android:layout_above="@+id/u_create_event_btn"
         android:layout_alignParentLeft="true"
@@ -149,7 +149,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Notify Date"
+        android:text="Update Date"
         android:id="@+id/u_notify_btn"
         android:layout_below="@+id/u_notify_text"
         android:onClick="showNotifyDatePickerDialog"
@@ -160,14 +160,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Event"
+        android:text="Update"
         android:id="@+id/u_create_event_btn"
+        android:onClick="updateEvent"
         android:layout_alignParentBottom="true"
-        android:onClick="createEvent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/u_event_location_text"
-        android:layout_alignEnd="@+id/u_event_location_text" />
+        android:layout_toLeftOf="@+id/u_n_date_label"
+        android:layout_toStartOf="@+id/u_n_date_label" />
 
     <Button
         android:layout_width="wrap_content"
@@ -183,7 +181,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time"
-        android:id="@+id/c_e_time_btn"
+        android:id="@+id/u_e_time_btn"
         android:layout_above="@+id/u_event_loc"
         android:onClick="showEndTimePickerDialog"
         android:layout_alignRight="@+id/u_event_location_text"
@@ -195,12 +193,91 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time"
-        android:id="@+id/c_n_time_btn"
+        android:id="@+id/u_n_time_btn"
         android:layout_below="@+id/u_notify_text"
         android:onClick="showNotifyTimePickerDialog"
         android:layout_alignRight="@+id/u_event_location_text"
         android:layout_alignEnd="@+id/u_event_location_text"
         android:layout_toEndOf="@+id/u_notify_btn"
         android:layout_toRightOf="@+id/u_notify_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2015/10/18"
+        android:id="@+id/u_s_date_label"
+        android:layout_below="@+id/u_set_start_dbutton"
+        android:layout_alignLeft="@+id/u_set_start_dbutton"
+        android:layout_alignStart="@+id/u_set_start_dbutton"
+        android:layout_toLeftOf="@+id/u_s_time_btn"
+        android:layout_toStartOf="@+id/u_s_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10:18"
+        android:id="@+id/u_s_time_label"
+        android:layout_below="@+id/u_set_start_dbutton"
+        android:layout_toRightOf="@+id/u_set_start_dbutton"
+        android:layout_toEndOf="@+id/u_set_start_dbutton"
+        android:layout_above="@+id/u_e_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2015/12/20"
+        android:id="@+id/u_e_date_label"
+        android:layout_below="@+id/u_set_end_date_button"
+        android:layout_alignLeft="@+id/u_set_end_date_button"
+        android:layout_alignStart="@+id/u_set_end_date_button"
+        android:layout_alignRight="@+id/u_set_end_date_button"
+        android:layout_alignEnd="@+id/u_set_end_date_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10:19"
+        android:id="@+id/u_e_time_label"
+        android:layout_below="@+id/u_set_end_date_button"
+        android:layout_toRightOf="@+id/u_set_end_date_button"
+        android:layout_toEndOf="@+id/u_set_end_date_button"
+        android:layout_above="@+id/u_event_location_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2015/11/15"
+        android:id="@+id/u_n_date_label"
+        android:layout_below="@+id/u_notify_btn"
+        android:layout_toRightOf="@+id/u_eventname"
+        android:layout_alignRight="@+id/u_notify_btn"
+        android:layout_alignEnd="@+id/u_notify_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="10:59"
+        android:id="@+id/u_n_time_label"
+        android:layout_below="@+id/u_n_time_btn"
+        android:layout_alignLeft="@+id/u_n_time_btn"
+        android:layout_alignStart="@+id/u_n_time_btn"
+        android:layout_alignBottom="@+id/u_n_date_label" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:id="@+id/r_event_btn"
+        android:onClick="removeEvent"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/u_n_date_label"
+        android:layout_toEndOf="@+id/u_n_date_label" />
+
 
 </RelativeLayout>

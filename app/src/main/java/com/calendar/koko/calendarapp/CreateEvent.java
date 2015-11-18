@@ -22,7 +22,6 @@ import com.calendar.koko.model.objects.CreateEventObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -46,10 +45,10 @@ public class CreateEvent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        eventName = (EditText) findViewById(R.id.c_eventname_text);
-        eventDesc = (EditText) findViewById(R.id.c_event_desc_text);
-        location = (EditText) findViewById(R.id.c_event_location_text);
-        notify = (EditText) findViewById(R.id.c_notify_text);
+        eventName = (EditText) findViewById(R.id.u_eventname_text);
+        eventDesc = (EditText) findViewById(R.id.u_event_desc_text);
+        location = (EditText) findViewById(R.id.u_event_location_text);
+        notify = (EditText) findViewById(R.id.u_notify_text);
 
     }
 

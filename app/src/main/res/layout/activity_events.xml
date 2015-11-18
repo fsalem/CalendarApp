@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.calendar.koko.calendarapp.EventsActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="From"
+        android:id="@+id/e_from"
+        android:layout_alignTop="@+id/e_s_date_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Date"
+        android:id="@+id/e_s_date_btn"
+        android:onClick="showStartDatePickerDialog"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/e_from"
+        android:layout_toEndOf="@+id/e_from"
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:id="@+id/e_s_time_btn"
+        android:onClick="showStartDatePickerDialog"
+        android:layout_alignTop="@+id/e_s_date_btn"
+        android:layout_toRightOf="@+id/e_s_date_btn"
+        android:layout_toEndOf="@+id/e_s_date_btn"
+        android:layout_marginLeft="57dp"
+        android:layout_marginStart="57dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="To"
+        android:id="@+id/e_to"
+        android:layout_below="@+id/e_s_date_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="57dp"
+        android:layout_alignRight="@+id/e_from"
+        android:layout_alignEnd="@+id/e_from" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Date"
+        android:id="@+id/e_e_date_btn"
+        android:onClick="showEndDatePickerDialog"
+        android:layout_alignTop="@+id/e_to"
+        android:layout_alignLeft="@+id/e_s_date_btn"
+        android:layout_alignStart="@+id/e_s_date_btn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:id="@+id/e_e_time_btn"
+        android:onClick="showEndTimePickerDialog"
+        android:layout_alignTop="@+id/e_e_date_btn"
+        android:layout_alignLeft="@+id/e_s_time_btn"
+        android:layout_alignStart="@+id/e_s_time_btn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List all Events"
+        android:id="@+id/e_list_events_btn"
+        android:onClick="listAllEvents"
+        android:layout_below="@+id/e_e_date_btn"
+        android:layout_marginTop="57dp"
+        android:layout_alignRight="@+id/e_e_time_btn"
+        android:layout_alignEnd="@+id/e_e_time_btn"
+        android:layout_alignLeft="@+id/e_e_date_btn"
+        android:layout_alignStart="@+id/e_e_date_btn" />
+
+
+</RelativeLayout>
