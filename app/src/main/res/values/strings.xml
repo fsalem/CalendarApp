@@ -21,6 +21,10 @@
     <string name="action_settings">Settings</string>
     <string name="event_creation_success">Event created successfully</string>
     <string name="event_creation_failed">Failed to create the event</string>
+    <string name="event_update_success">Event updated successfully</string>
+    <string name="event_update_failed">Failed to update the event</string>
+    <string name="event_delete_success">Event deleted successfully</string>
+    <string name="event_delete_failed">Failed to delete the event</string>
     <string name="title_activity_result">ResultActivity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

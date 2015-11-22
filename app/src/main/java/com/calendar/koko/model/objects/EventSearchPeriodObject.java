@@ -6,10 +6,13 @@ import java.util.List;
 /**
  * Created by farouk on 11/5/15.
  */
-public class EventSearchObject implements Serializable {
+
+public class EventSearchPeriodObject implements Serializable {
+
     Integer success;
     String error;
-    List<EventObject> result;
+    List<EventPeriodResultObject> result;
+
 
     public Integer getSuccess() {
         return success;
@@ -19,11 +22,11 @@ public class EventSearchObject implements Serializable {
         this.success = success;
     }
 
-    public void setResult(List<EventObject> result) {
+    public void setResult(List<EventPeriodResultObject> result) {
         this.result = result;
     }
 
-    public List<EventObject> getResult() {
+    public List<EventPeriodResultObject> getResult() {
         return result;
     }
 

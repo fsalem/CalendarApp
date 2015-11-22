@@ -1,11 +1,12 @@
 package com.calendar.koko.model.objects;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by farouk on 11/5/15.
  */
-public class EventObject {
+public class EventObject implements Serializable {
     private String _id;
     private String title;
     private String description;
@@ -13,7 +14,7 @@ public class EventObject {
     private Long end;
     private String location;
     private Boolean notify;
-    private Date creationDate;
+    //private Date creationDate;
     private Long notificationDate;
 
 
@@ -73,6 +74,7 @@ public class EventObject {
         this.notify = notify;
     }
 
+    /*
     public Date getCreationDate() {
         return creationDate;
     }
@@ -80,12 +82,17 @@ public class EventObject {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
-
+*/
     public Long getNotificationDate() {
         return notificationDate;
     }
 
     public void setNotificationDate(Long notificationDate) {
         this.notificationDate = notificationDate;
+    }
+
+    @Override
+    public String toString() {
+        return getTitle();
     }
 }

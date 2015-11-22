@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Time"
         android:id="@+id/e_s_time_btn"
-        android:onClick="showStartDatePickerDialog"
+        android:onClick="showStartTimePickerDialog"
         android:layout_alignTop="@+id/e_s_date_btn"
         android:layout_toRightOf="@+id/e_s_date_btn"
         android:layout_toEndOf="@+id/e_s_date_btn"
