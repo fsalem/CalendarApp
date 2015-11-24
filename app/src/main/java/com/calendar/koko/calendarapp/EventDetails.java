@@ -380,6 +380,12 @@ public class EventDetails extends AppCompatActivity {
             deleteEventTask = null;
             finish();
         }
+
+
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

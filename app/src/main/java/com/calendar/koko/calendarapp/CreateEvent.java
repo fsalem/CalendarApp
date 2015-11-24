@@ -132,6 +132,9 @@ public class CreateEvent extends AppCompatActivity {
         notifyDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    private void reset(){
+        createEventTask = null;
+    }
 
     //Create an event
     public void createEvent(View v){
@@ -160,6 +163,8 @@ public class CreateEvent extends AppCompatActivity {
         if (notifyDatePickerFragment != null && notifyDatePickerFragment.year != 0) {
             cal.set(notifyDatePickerFragment.year + 1900, notifyDatePickerFragment.month, notifyDatePickerFragment.day, notifyTimePickerFragment.hourOfDay, notifyTimePickerFragment.minute, 0);
             eventObject.setnDate(cal.getTime().getTime());
+        }else{
+            eventObject.setnDate(0L);
         }
         System.out.println("Dates=> "+eventObject.getsDate()+", "+eventObject.getsDate()+", "+eventObject.geteDate());
         createEventTask = new CreateEventTask(eventObject,this);
@@ -203,6 +208,7 @@ public class CreateEvent extends AppCompatActivity {
                                 Intent intent = new Intent(CreateEvent.this, Home.class);
                                 startActivity(intent);
                                 dialog.dismiss();
+                                finish();
                             }
                         });
             } else {
@@ -215,13 +221,14 @@ public class CreateEvent extends AppCompatActivity {
                         });
             }
             alertDialog.show();
+            reset();
         }
 
-        @Override
-        protected void onCancelled() {
-            createEventTask = null;
-        }
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
 

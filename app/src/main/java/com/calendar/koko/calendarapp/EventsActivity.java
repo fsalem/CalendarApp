@@ -194,17 +194,36 @@ public class EventsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            Intent listView = new Intent(mActivity, ResultActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("EVENT_LIST",events);
-            listView.putExtras(bundle);
-            startActivity(listView);
-            reset();
+            if (events == null || events.getResult() == null || events.getResult().isEmpty()){
+                AlertDialog alertDialog = new AlertDialog.Builder(mActivity).create();
+                alertDialog.setTitle("Status");
+                alertDialog.setMessage(getResources().getString(R.string.event_retrieve_empty));
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+                reset();
+            }else {
+                Intent listView = new Intent(mActivity, ResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("EVENT_LIST", events);
+                listView.putExtras(bundle);
+                startActivity(listView);
+                reset();
+            }
         }
 
         @Override
         protected void onCancelled() {
             reset();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

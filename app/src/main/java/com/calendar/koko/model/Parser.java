@@ -29,9 +29,8 @@ import java.util.List;
  */
 public class Parser {
     private final static HashMap<String, String> URI_MAP = new HashMap<String, String>();
-    //private final static String SERVER_URL = "http://130.233.42.98:8080";
-    private final static String SERVER_URL = "http://192.168.0.101:8080";
-
+    private final static String SERVER_URL = "http://130.233.42.98:8080";
+    //private final static String SERVER_URL = "http://192.168.0.101:8080";
     static {
         URI_MAP.put("login", "/api/users/login/");
         URI_MAP.put("CRUDEvent", "/api/events/");
@@ -72,6 +71,7 @@ public class Parser {
 
     private static String getURLContent(String uri, String method, List<NameValuePair> params) {
         try {
+            //System.out.println("getURLContent: "+uri);
             URL url = new URL(SERVER_URL + uri);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
@@ -89,6 +89,7 @@ public class Parser {
             }
             connection.connect();
             int statusCode = connection.getResponseCode();
+            //System.out.println("getURLContent: statusCode = "+statusCode);
             if (statusCode == 200) {
                 String content = getResponseContent((InputStream) connection.getContent());
 
@@ -106,7 +107,7 @@ public class Parser {
         params.add(new NameValuePair("password", password));
         String content = getURLContent(URI_MAP.get("login"), "POST", params);
         ConfirmObject confirmObject = new Gson().fromJson(content, ConfirmObject.class);
-        System.out.println("success object = "+confirmObject + " & error = "+confirmObject.getError());
+        //System.out.println("success object = "+confirmObject + " & error = "+confirmObject.getError());
         return confirmObject;
     }
 
@@ -138,7 +139,7 @@ public class Parser {
             }
         }
         String content = getURLContent(URI_MAP.get("CRUDEvent")+_id+"/", "PUT", params);
-        System.out.println("in updateEvent = "+content);
+        //System.out.println("in updateEvent = "+content);
         ConfirmObject confirmObject = new Gson().fromJson(content, ConfirmObject.class);
         return confirmObject;
     }
@@ -148,7 +149,7 @@ public class Parser {
         params.add(new NameValuePair("email",email));
         params.add(new NameValuePair("password",password));
         String content = getURLContent(URI_MAP.get("CRUDEvent")+_id+"/", "DELETE", params);
-        System.out.println("in deleteEvent = "+content);
+        //System.out.println("in deleteEvent = "+content);
         ConfirmObject confirmObject = new Gson().fromJson(content, ConfirmObject.class);
         return confirmObject;
     }
@@ -156,7 +157,7 @@ public class Parser {
     public static EventSearchObject retreiveAllEvents(String email, String password) throws IllegalAccessException, InvocationTargetException {
         String content = getURLContent(URI_MAP.get("CRUDEvent")+email+"/"+password, "GET", null);
         EventSearchObject eventsObject = new Gson().fromJson(content, EventSearchObject.class);
-        System.out.println("Result of retrieveAll eventObject = "+eventsObject);
+        //System.out.println("Result of retrieveAll eventObject = "+eventsObject);
         return eventsObject;
     }
 
