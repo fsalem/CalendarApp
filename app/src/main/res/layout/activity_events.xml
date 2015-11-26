@@ -87,5 +87,47 @@
         android:layout_alignLeft="@+id/e_e_date_btn"
         android:layout_alignStart="@+id/e_e_date_btn" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/list_events_start_date_label"
+        android:layout_below="@+id/e_s_date_btn"
+        android:layout_alignLeft="@+id/e_s_date_btn"
+        android:layout_alignStart="@+id/e_s_date_btn"
+        android:layout_toLeftOf="@+id/e_s_time_btn"
+        android:layout_toStartOf="@+id/e_s_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/list_events_start_time_label"
+        android:layout_below="@+id/e_s_time_btn"
+        android:layout_alignRight="@+id/e_s_time_btn"
+        android:layout_alignEnd="@+id/e_s_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/list_events_end_date_label"
+        android:layout_below="@+id/e_e_date_btn"
+        android:layout_alignLeft="@+id/e_e_date_btn"
+        android:layout_alignStart="@+id/e_e_date_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/list_events_end_time_label"
+        android:layout_below="@+id/e_e_time_btn"
+        android:layout_alignRight="@+id/e_e_time_btn"
+        android:layout_alignEnd="@+id/e_e_time_btn" />
+
 
 </RelativeLayout>

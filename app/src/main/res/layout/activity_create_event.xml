@@ -31,6 +31,73 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/c_s_date_label"
+        android:layout_below="@+id/u_set_start_dbutton"
+        android:layout_alignLeft="@+id/u_set_start_dbutton"
+        android:layout_alignStart="@+id/u_set_start_dbutton"
+        android:layout_toLeftOf="@+id/u_s_time_btn"
+        android:layout_toStartOf="@+id/u_s_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/c_s_time_label"
+        android:layout_below="@+id/u_set_start_dbutton"
+        android:layout_toRightOf="@+id/u_set_start_dbutton"
+        android:layout_toEndOf="@+id/u_set_start_dbutton"
+        android:layout_above="@+id/u_e_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/c_e_date_label"
+        android:layout_below="@+id/u_set_end_date_button"
+        android:layout_alignLeft="@+id/u_set_end_date_button"
+        android:layout_alignStart="@+id/u_set_end_date_button"
+        android:layout_alignRight="@+id/u_set_end_date_button"
+        android:layout_alignEnd="@+id/u_set_end_date_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/c_e_time_label"
+        android:layout_below="@+id/u_set_end_date_button"
+        android:layout_toRightOf="@+id/u_set_end_date_button"
+        android:layout_toEndOf="@+id/u_set_end_date_button"
+        android:layout_above="@+id/u_event_location_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/c_n_date_label"
+        android:layout_below="@+id/u_notify_btn"
+        android:layout_toRightOf="@+id/u_eventname"
+        android:layout_alignRight="@+id/u_notify_btn"
+        android:layout_alignEnd="@+id/u_notify_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/c_n_time_label"
+        android:layout_alignTop="@+id/c_n_date_label"
+        android:layout_alignLeft="@+id/c_n_time_btn"
+        android:layout_alignStart="@+id/c_n_time_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Event Desc"
         android:id="@+id/u_eventdesc"
         android:layout_below="@+id/u_eventname"
@@ -140,11 +207,9 @@
         android:layout_height="wrap_content"
         android:text="Notify Date"
         android:id="@+id/c_notify_date"
-        android:layout_below="@+id/u_notify"
-        android:layout_above="@+id/u_create_event_btn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp" />
+        android:layout_alignBottom="@+id/u_notify_btn"
+        android:layout_alignRight="@+id/c_enddate"
+        android:layout_alignEnd="@+id/c_enddate" />
 
     <Button
         android:layout_width="wrap_content"
@@ -162,12 +227,12 @@
         android:layout_height="wrap_content"
         android:text="Create Event"
         android:id="@+id/u_create_event_btn"
-        android:layout_alignParentBottom="true"
         android:onClick="createEvent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/u_event_location_text"
-        android:layout_alignEnd="@+id/u_event_location_text" />
+        android:layout_alignEnd="@+id/u_event_location_text"
+        android:layout_alignLeft="@+id/c_notify_date"
+        android:layout_alignStart="@+id/c_notify_date" />
 
     <Button
         android:layout_width="wrap_content"

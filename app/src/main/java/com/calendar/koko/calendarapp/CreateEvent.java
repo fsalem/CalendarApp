@@ -14,6 +14,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.calendar.koko.model.Parser;
@@ -40,6 +41,12 @@ public class CreateEvent extends AppCompatActivity {
     private TimePickerFragment notifyTimePickerFragment;
 
 
+    private TextView startDateLabel;
+    private TextView startTimeLabel;
+    private TextView endDateLabel;
+    private TextView endTimeLabel;
+    private TextView notifyDateLabel;
+    private TextView notifyTimeLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +57,19 @@ public class CreateEvent extends AppCompatActivity {
         location = (EditText) findViewById(R.id.u_event_location_text);
         notify = (EditText) findViewById(R.id.u_notify_text);
 
+        startDateLabel = (TextView) findViewById(R.id.c_s_date_label);
+        startTimeLabel = (TextView) findViewById(R.id.c_s_time_label);
+        endDateLabel = (TextView) findViewById(R.id.c_e_date_label);
+        endTimeLabel = (TextView) findViewById(R.id.c_e_time_label);
+        notifyDateLabel = (TextView) findViewById(R.id.c_n_date_label);
+        notifyTimeLabel = (TextView) findViewById(R.id.c_n_time_label);
+
     }
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
         int hourOfDay, minute;
+        TextView label;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
@@ -70,24 +85,28 @@ public class CreateEvent extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             this.hourOfDay = hourOfDay;
             this.minute = minute;
+            label.setText(hourOfDay + ":" + minute);
         }
     }
 
     //Show time Picker
     public void showStartTimePickerDialog(View v) {
         startTimePickerFragment = new TimePickerFragment();
+        startTimePickerFragment.label = startTimeLabel;
         startTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     //Show time Picker
     public void showEndTimePickerDialog(View v) {
         endTimePickerFragment = new TimePickerFragment();
+        endTimePickerFragment.label = endTimeLabel;
         endTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     //Show time Picker
     public void showNotifyTimePickerDialog(View v) {
         notifyTimePickerFragment = new TimePickerFragment();
+        notifyTimePickerFragment.label = notifyTimeLabel;
         notifyTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
@@ -95,6 +114,7 @@ public class CreateEvent extends AppCompatActivity {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         int year,month,day;
+        TextView label;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -111,24 +131,28 @@ public class CreateEvent extends AppCompatActivity {
             this.year = year;
             this.month = month;
             this.day = day;
+            label.setText(year + "/" + (month+1) + "/" + day);
         }
     }
 
     //show date picker
     public void showStartDatePickerDialog(View v) {
         startDatePickerFragment= new DatePickerFragment();
+        startDatePickerFragment.label = startDateLabel;
         startDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     //show date picker
     public void showEndDatePickerDialog(View v) {
         endDatePickerFragment = new DatePickerFragment();
+        endDatePickerFragment.label = endDateLabel;
         endDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     //show date picker
     public void showNotifyDatePickerDialog(View v) {
         notifyDatePickerFragment = new DatePickerFragment();
+        notifyDatePickerFragment.label = notifyDateLabel;
         notifyDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 

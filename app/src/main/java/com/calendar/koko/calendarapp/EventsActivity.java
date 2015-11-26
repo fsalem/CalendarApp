@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.calendar.koko.model.Parser;
@@ -37,16 +38,28 @@ public class EventsActivity extends AppCompatActivity {
     private DatePickerFragment toDatePickerFragment;
     private TimePickerFragment toTimePickerFragment;
 
+    private TextView startDateLabel;
+    private TextView startTimeLabel;
+    private TextView endDateLabel;
+    private TextView endTimeLabel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+
+
+        startDateLabel = (TextView) findViewById(R.id.list_events_start_date_label);
+        startTimeLabel = (TextView) findViewById(R.id.list_events_start_time_label);
+        endDateLabel = (TextView) findViewById(R.id.list_events_end_date_label);
+        endTimeLabel = (TextView) findViewById(R.id.list_events_end_time_label);
     }
 
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
         int hourOfDay, minute;
+        TextView label;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
@@ -62,6 +75,7 @@ public class EventsActivity extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             this.hourOfDay = hourOfDay;
             this.minute = minute;
+            label.setText(hourOfDay + ":" + minute);
         }
     }
 
@@ -70,6 +84,7 @@ public class EventsActivity extends AppCompatActivity {
         //Maybe you need to pass paramter to the constructor to handle logic in onTimeSet
 
         fromTimePickerFragment = new TimePickerFragment();
+        fromTimePickerFragment.label = startTimeLabel;
         fromTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
@@ -78,14 +93,15 @@ public class EventsActivity extends AppCompatActivity {
         //Maybe you need to pass paramter to the constructor to handle logic in onTimeSet
 
         toTimePickerFragment = new TimePickerFragment();
+        toTimePickerFragment.label = endTimeLabel;
         toTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
-
         int year, month, day;
+        TextView label;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
@@ -102,6 +118,7 @@ public class EventsActivity extends AppCompatActivity {
             this.year = year;
             this.month = month;
             this.day = day;
+            label.setText(year + "/" + (month+1) + "/" + day);
         }
     }
 
@@ -110,6 +127,7 @@ public class EventsActivity extends AppCompatActivity {
         //Maybe you need to pass paramter to the constructor to handle logic in onDateSet
 
         fromDatePickerFragment = new DatePickerFragment();
+        fromDatePickerFragment.label = startDateLabel;
         fromDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
   }
 
@@ -118,6 +136,7 @@ public class EventsActivity extends AppCompatActivity {
         //Maybe you need to pass paramter to the constructor to handle logic in onDateSet
 
         toDatePickerFragment = new DatePickerFragment();
+        toDatePickerFragment.label = endDateLabel;
         toDatePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
