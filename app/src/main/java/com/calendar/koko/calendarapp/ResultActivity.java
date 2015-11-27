@@ -21,6 +21,12 @@ public class ResultActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getApplicationContext() == null || !(getApplicationContext() instanceof LoginCredentialsApplication) || ((LoginCredentialsApplication) getApplicationContext()).getEmail() == null){
+            Intent home = new Intent(this,LoginActivity.class);
+            startActivity(home);
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
@@ -64,6 +70,7 @@ public class ResultActivity extends AppCompatActivity {
                 bundle.putSerializable("EVENT_DETAILS",itemValue);
                 eventdetailsview.putExtras(bundle);
                 startActivity(eventdetailsview);
+                finish();
 
 
             }

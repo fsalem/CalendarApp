@@ -57,6 +57,12 @@ public class EventDetails extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getApplicationContext() == null || !(getApplicationContext() instanceof LoginCredentialsApplication) || ((LoginCredentialsApplication) getApplicationContext()).getEmail() == null){
+            Intent home = new Intent(this,LoginActivity.class);
+            startActivity(home);
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
@@ -73,6 +79,7 @@ public class EventDetails extends AppCompatActivity {
         notify = (EditText)findViewById(R.id.u_notify_text);
 
         eventObject = (EventObject)getIntent().getSerializableExtra("EVENT_DETAILS");
+        System.out.println("StartDate = "+eventObject.getStart()+", EndDate = "+eventObject.getEnd()+", NotificationDate = "+eventObject.getNotificationDate());
         Calendar startDate = getDate(eventObject.getStart());
         Calendar endDate = getDate(eventObject.getEnd());
         Calendar notDate = getDate(eventObject.getNotificationDate());
@@ -133,10 +140,18 @@ public class EventDetails extends AppCompatActivity {
     }
 
     void updateDateLabel(TextView label,int year, int month, int day){
-        label.setText(year + "/" + month + "/" + day);
+        if (year == 1970 && month == 1 && day == 1){
+            label.setText("-/-/-");
+        }else {
+            label.setText(year + "/" + month + "/" + day);
+        }
     }
     private void updateTimeLabel(TextView label,int hours, int minutes){
-        label.setText(hours + ":" + minutes);
+        if (hours == 2 && minutes == 0){
+            label.setText("-:-");
+        }else {
+            label.setText(hours + ":" + minutes);
+        }
     }
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {

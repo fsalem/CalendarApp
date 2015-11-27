@@ -29,8 +29,8 @@ import java.util.List;
  */
 public class Parser {
     private final static HashMap<String, String> URI_MAP = new HashMap<String, String>();
-    private final static String SERVER_URL = "http://130.233.42.98:8080";
-    //private final static String SERVER_URL = "http://192.168.0.101:8080";
+    //private final static String SERVER_URL = "http://130.233.42.98:8080";
+    private final static String SERVER_URL = "http://192.168.0.101:8080";
     static {
         URI_MAP.put("login", "/api/users/login/");
         URI_MAP.put("CRUDEvent", "/api/events/");

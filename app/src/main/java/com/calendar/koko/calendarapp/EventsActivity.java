@@ -45,6 +45,13 @@ public class EventsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (getApplicationContext() == null || !(getApplicationContext() instanceof LoginCredentialsApplication) || ((LoginCredentialsApplication) getApplicationContext()).getEmail() == null){
+            Intent home = new Intent(this,LoginActivity.class);
+            startActivity(home);
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
@@ -200,8 +207,10 @@ public class EventsActivity extends AppCompatActivity {
                 }else{
                     events = Parser.retreiveAllEvents(searchObject.getEmail(),searchObject.getPassword());
                 }
-                System.out.println("Result in EventsActivity from Parser = " + events.getResult().size());
-                return true?events.getSuccess() == 1:false;
+                //System.out.println("Result in EventsActivity from Parser = " + events.getResult().size());
+                if (events != null && events.getSuccess() != null) {
+                    return true ? events.getSuccess() == 1 : false;
+                }
             }catch (IllegalAccessException illegalException){
                 illegalException.printStackTrace();
             }catch (InvocationTargetException exception){
@@ -231,6 +240,7 @@ public class EventsActivity extends AppCompatActivity {
                 bundle.putSerializable("EVENT_LIST", events);
                 listView.putExtras(bundle);
                 startActivity(listView);
+                finish();
                 reset();
             }
         }

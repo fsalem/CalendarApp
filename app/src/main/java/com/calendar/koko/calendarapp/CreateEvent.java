@@ -50,6 +50,12 @@ public class CreateEvent extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getApplicationContext() == null || !(getApplicationContext() instanceof LoginCredentialsApplication) || ((LoginCredentialsApplication) getApplicationContext()).getEmail() == null){
+            Intent home = new Intent(this,LoginActivity.class);
+            startActivity(home);
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         eventName = (EditText) findViewById(R.id.u_eventname_text);
@@ -177,15 +183,15 @@ public class CreateEvent extends AppCompatActivity {
         eventObject.setLocation(location.getText().toString());
         eventObject.setNotify(notify.getText().toString().equals("1") ? true : false);
         if (startDatePickerFragment != null && startDatePickerFragment.year != 0) {
-            cal.set(startDatePickerFragment.year + 1900, startDatePickerFragment.month, startDatePickerFragment.day, startTimePickerFragment.hourOfDay, startTimePickerFragment.minute, 0);
+            cal.set(startDatePickerFragment.year, startDatePickerFragment.month, startDatePickerFragment.day, startTimePickerFragment.hourOfDay, startTimePickerFragment.minute, 0);
             eventObject.setsDate(cal.getTime().getTime());
         }
         if (endDatePickerFragment != null && endDatePickerFragment.year != 0) {
-            cal.set(endDatePickerFragment.year + 1900, endDatePickerFragment.month, endDatePickerFragment.day, endTimePickerFragment.hourOfDay, endTimePickerFragment.minute, 0);
+            cal.set(endDatePickerFragment.year, endDatePickerFragment.month, endDatePickerFragment.day, endTimePickerFragment.hourOfDay, endTimePickerFragment.minute, 0);
             eventObject.seteDate(cal.getTime().getTime());
         }
         if (notifyDatePickerFragment != null && notifyDatePickerFragment.year != 0) {
-            cal.set(notifyDatePickerFragment.year + 1900, notifyDatePickerFragment.month, notifyDatePickerFragment.day, notifyTimePickerFragment.hourOfDay, notifyTimePickerFragment.minute, 0);
+            cal.set(notifyDatePickerFragment.year, notifyDatePickerFragment.month, notifyDatePickerFragment.day, notifyTimePickerFragment.hourOfDay, notifyTimePickerFragment.minute, 0);
             eventObject.setnDate(cal.getTime().getTime());
         }else{
             eventObject.setnDate(0L);

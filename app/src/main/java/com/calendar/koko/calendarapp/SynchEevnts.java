@@ -72,6 +72,12 @@ public class SynchEevnts extends AppCompatActivity  implements LoaderManager.Loa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getApplicationContext() == null || !(getApplicationContext() instanceof LoginCredentialsApplication) || ((LoginCredentialsApplication) getApplicationContext()).getEmail() == null){
+            Intent home = new Intent(this,LoginActivity.class);
+            startActivity(home);
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_synch_eevnts);
 
@@ -278,7 +284,7 @@ public class SynchEevnts extends AppCompatActivity  implements LoaderManager.Loa
             value.put(CalendarContract.Events.CALENDAR_ID, calendar_id);
 
             System.out.println("Event title = " + eventObject.getTitle());
-            System.out.println("Event title = " + new Date(eventObject.getStart()).toString());
+            System.out.println("Event Start Date = " + new Date(eventObject.getStart()).toString());
 
             values[i++] = value;
         }
@@ -288,7 +294,7 @@ public class SynchEevnts extends AppCompatActivity  implements LoaderManager.Loa
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Status");
-        alertDialog.setMessage(getResources().getString(R.string.event_synToGoogle_success));
+        alertDialog.setMessage(values.length+" "+getResources().getString(R.string.event_synToGoogle_success));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
